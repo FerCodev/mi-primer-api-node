@@ -1,0 +1,24 @@
+{
+  "name": "api-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./index.js",
+    "lint": "eslint .",
+    "start": "node ./index.js"
+  },
+  "author": "Fernando Montes De Oca",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "2.0.9",
+    "standard": "16.0.3"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "4.17.1"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/.bin/eslintrc.json"
+  }
+}
