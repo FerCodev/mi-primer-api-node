@@ -5,14 +5,14 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const logger = app.use((req, res, next) => {
-  console.log(req.method)
-  console.log(req.path)
-  console.log(req.body)
-  console.log('---------------------')
-  next()
-})
-app.use(logger)
+// const logger = app.use((req, res, next) => {
+//   console.log(req.method)
+//   console.log(req.path)
+//   console.log(req.body)
+//   console.log('---------------------')
+//   next()
+// })
+// app.use(logger)
 
 let notes = [
   {
