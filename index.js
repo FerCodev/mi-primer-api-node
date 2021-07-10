@@ -1,39 +1,20 @@
+require('dotenv').config()
+//Primero importamos el modulo y luego hacemos la 
+//llamada-- dejamos la version simplificada
+//const connectDB = require('./mongo.js')
+//connectDB()
+require('./mongo')
 const express = require('express')
-const cors = require('cors')
 const app = express()
+const cors = require('cors')
+const Note = require('./models/Note')
 //const notes = require('./api/notes.json')
+//const mongoose = require('mongoose')
+
 app.use(cors())
 app.use(express.json())
 
-// const logger = app.use((req, res, next) => {
-//   console.log(req.method)
-//   console.log(req.path)
-//   console.log(req.body)
-//   console.log('---------------------')
-//   next()
-// })
-// app.use(logger)
-
-let notes = [
-  {
-    id: 1,
-    content: 'hola perro vegano',
-    date: '2020-05-30T18:39.34.0912',
-    important: false,
-  },
-  {
-    id: 2,
-    content: 'me gusta la pastafrola',
-    date: '2020-05-30T18:39.34.0912',
-    important: false,
-  },
-  {
-    id: 3,
-    content: 'hola mundo loco',
-    date: '2020-05-30T18:39.34.0912',
-    important: false,
-  },
-]
+let notes = []
 
 
 
@@ -42,7 +23,9 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/notes', (req, res) => {
-  res.json(notes).end()
+  Note.find({}).then(notes => {
+    res.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (req, res) => {
@@ -58,10 +41,16 @@ app.get('/api/notes/:id', (req, res) => {
 
 app.delete('/api/notes/:id', (req, res) => {
   const id = Number(req.params.id)
-  notes = notes.filter((note) => note.id === id)
-  res.status(204).end()
-  //res.send(id)
-  console.log(id)
+  const note = notes.filter((note) => note.id === id)
+
+  if(note){
+    res.status(204).end()
+    //res.send(id)
+    console.log(id)
+  }else{
+    console.log('puto')
+  }
+  
 })
 
 app.post('/api/notes', (req, res) => {
