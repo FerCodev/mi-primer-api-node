@@ -15,9 +15,6 @@ noteSchema.set('toJSON', {
     }
 })
 
-
-
-
 // Note.find({}).then(result => {
 //   console.log(result)
 //   mongoose.connection.close()

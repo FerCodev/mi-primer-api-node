@@ -1,0 +1,7 @@
+PUT   http://localhost:3001/api/notes
+Content-Type:  application/json
+
+{
+    "content": "hoy es un gran dia para matar",
+    "important": true
+}

@@ -8,6 +8,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const Note = require('./models/Note')
+const { request } = require('express')
 //const notes = require('./api/notes.json')
 //const mongoose = require('mongoose')
 
@@ -28,29 +29,47 @@ app.get('/api/notes', (req, res) => {
   })
 })
 
-app.get('/api/notes/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const note = notes.find((note) => note.id === id)
+app.get('/api/notes/:id', (req, res, next) => {
+  const {id} = req.params
+  //const note = notes.find((note) => note.id === id)
 
-  if (note) {
-    res.json(note)
-  } else {
-    res.status(404).end()
-  }
+  Note.findById(id).then( note => {
+    if (note) {
+      return res.json(note)
+    } else {
+      res.status(404).end()
+    }
+  }).catch(err => {
+    next(err)
+  })  
 })
 
-app.delete('/api/notes/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const note = notes.filter((note) => note.id === id)
+app.put('/api/notes/:id', (req, res, next) => {
+  const {id} = req.params
+  const note = req.body
 
-  if(note){
-    res.status(204).end()
-    //res.send(id)
-    console.log(id)
-  }else{
-    console.log('puto')
+  const newNoteInfo = {
+    content: note.content,
+    important: note.important
   }
+
+  Note.findByIdAndUpdate(id, newNoteInfo, {new: true} )
+    .then(result => {
+      res.json(result)
+    })
   
+
+  //res.status(204).end()
+})
+
+app.delete('/api/notes/:id', (req, res, next) => {
+  const {id} = req.params
+  
+  Note.findByIdAndRemove(id).then( result => {
+    res.status(204).end()
+  }).catch( error => next(error))
+
+  res.status(204).end()
 })
 
 app.post('/api/notes', (req, res) => {
@@ -59,23 +78,29 @@ app.post('/api/notes', (req, res) => {
     return res.status(400).json( { error : 'note.content is missing' } )
   }
 
-  const id = notes.map((note) => note.id)
-  const maxId = Math.max(...id)
-
-  const newNote = {
-    id: maxId + 1,
+  const newNote = new Note({
     content: note.content,
     important: typeof note.important !== 'undefined' ? note.important : false,
     date: new Date().toISOString(),
-  }
-  notes = [...notes, newNote]
-
-  console.log(newNote)
-  res.status(201).json(newNote)
+  })
+  newNote.save().then(savedNote => {
+    console.log(newNote)
+  res.json(savedNote)
+  })
 })
 
 app.use(() => {
   console.log('hola pepe')
+})
+
+app.use((error, req, res, next) => {
+  console.error(error)
+  //console.log(error.name)
+  if(error.name === 'CastError'){
+    res.status(400).end()
+  }else{
+    res.status(500).end()
+  }
 })
 
 const PORT = process.env.PORT || 3001
