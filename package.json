@@ -6,21 +6,28 @@
   "scripts": {
     "dev": "nodemon ./index.js",
     "lint": "eslint .",
-    "start": "node ./index.js"
+    "start": "node ./index.js",
+    "test": "jest --verbose"
   },
   "author": "Fernando Montes De Oca",
   "license": "ISC",
   "devDependencies": {
+    "jest": "27.0.6",
     "nodemon": "2.0.9",
     "standard": "16.0.3"
   },
   "dependencies": {
     "cors": "2.8.5",
-    "dotenv": "^10.0.0",
+    "dotenv": "10.0.0",
     "express": "4.17.1",
     "mongoose": "5.13.2"
   },
   "eslintConfig": {
-    "extends": "./node_modules/.bin/eslintrc.json"
+    "extends": "./node_modules/.bin/eslintrc.json",
+    "env": {"jest":true}
+  },
+  "jest": {
+    "testEvironment": "node"
   }
+  
 }

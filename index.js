@@ -9,15 +9,13 @@ const app = express()
 const cors = require('cors')
 const Note = require('./models/Note')
 const { request } = require('express')
+const notFound = require('./middleware/notFound')
+const handleErrors = require('./middleware/handleErrors')
 //const notes = require('./api/notes.json')
 //const mongoose = require('mongoose')
 
 app.use(cors())
 app.use(express.json())
-
-let notes = []
-
-
 
 app.get('/', (req, res) => {
   res.send(`<h1>Hola mundo</h1>`)
@@ -33,15 +31,15 @@ app.get('/api/notes/:id', (req, res, next) => {
   const {id} = req.params
   //const note = notes.find((note) => note.id === id)
 
-  Note.findById(id).then( note => {
-    if (note) {
-      return res.json(note)
-    } else {
-      res.status(404).end()
-    }
-  }).catch(err => {
-    next(err)
-  })  
+  Note.findById(id)
+    .then( note => {
+      if (note) {
+        return res.json(note)
+      } else {
+        res.status(404).end()
+      }
+    })
+    .catch(err => next(err))  
 })
 
 app.put('/api/notes/:id', (req, res, next) => {
@@ -57,22 +55,18 @@ app.put('/api/notes/:id', (req, res, next) => {
     .then(result => {
       res.json(result)
     })
-  
-
-  //res.status(204).end()
+    .catch(err => next(err))
 })
 
 app.delete('/api/notes/:id', (req, res, next) => {
   const {id} = req.params
   
-  Note.findByIdAndRemove(id).then( result => {
-    res.status(204).end()
-  }).catch( error => next(error))
-
-  res.status(204).end()
+  Note.findByIdAndRemove(id)
+    .then( () => {res.status(204).end()})
+    .catch( error => next(error))
 })
 
-app.post('/api/notes', (req, res) => {
+app.post('/api/notes', (req, res, next) => {
   const note = req.body
   if (!note || !note.content) {
     return res.status(400).json( { error : 'note.content is missing' } )
@@ -83,25 +77,20 @@ app.post('/api/notes', (req, res) => {
     important: typeof note.important !== 'undefined' ? note.important : false,
     date: new Date().toISOString(),
   })
-  newNote.save().then(savedNote => {
-    console.log(newNote)
-  res.json(savedNote)
-  })
+  newNote.save()
+    .then(savedNote => {
+      console.log(newNote)
+      res.json(savedNote)
+    })
+    .catch(err => next(err))
 })
 
 app.use(() => {
   console.log('hola pepe')
 })
 
-app.use((error, req, res, next) => {
-  console.error(error)
-  //console.log(error.name)
-  if(error.name === 'CastError'){
-    res.status(400).end()
-  }else{
-    res.status(500).end()
-  }
-})
+app.use(notFound)
+app.use(handleErrors)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
