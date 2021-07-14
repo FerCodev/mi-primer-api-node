@@ -93,6 +93,8 @@ app.use(notFound)
 app.use(handleErrors)
 
 const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`server runing on port ${PORT}`)
 })
+
+module.exports = {app, server}

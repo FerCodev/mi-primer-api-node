@@ -13,5 +13,3 @@ test('palindromo de undefined', () => {
   expect(result).toBeUndefined()
 })
 
-
-
