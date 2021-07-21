@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development nodemon ./index.js",
     "lint": "eslint .",
     "start": "cross-env NODE-ENV=production node ./index.js",
-    "test": "cross-env NODE_ENV=test jest --verbose --silent",
+    "test": "cross-env NODE_ENV=test jest --verbose --silent test/notes.test.js",
     "test:watch": "npm run test -- --watch"
   },
   "author": "Fernando Montes De Oca",
