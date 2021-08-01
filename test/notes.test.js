@@ -11,15 +11,19 @@ const Note = require('../models/Note')
 beforeEach( async () => {
   await Note.deleteMany({})
 
-  const note1 = new Note(initialNotes[0])
-  await note1.save()
+  //paralelo
+  // const notesObjects = initialNotes.map( note => new Note(note))
+  // const promises = notesObjects.map( note => note.save())
+  // await Promise.all(promises)
 
-  const note2 = new Note(initialNotes[1])
-  await note2.save()
-
+  //Secuencial
+  for(const note of initialNotes){
+    const noteObject = new Note(note)
+    await noteObject.save()
+  }
 })
 
-test('notes are returned as JASON', async () =>{
+test('notes are returned as JSON', async () =>{
   await api
           .get('/api/notes')
           .expect(200)
@@ -47,7 +51,6 @@ test('valid note can be added', async () => {
 
     //const response = await api.get('/api/notes')
     const {contents, response} = await getAllContentsFromNotes()
-    console.log('holaloco')
 
     expect(response.body).toHaveLength(initialNotes.length +1)
     expect(contents).toContain(newNote.content)
@@ -71,8 +74,8 @@ test('note without content is not added', async () => {
 })
 
 test('a note can be delete', async () => {
-  const {response: firstResponse} = await getAllContentsFromNotes()
-  //const firstResponse = response
+  const { response: firstResponse } = await getAllContentsFromNotes()
+
   const { body: notes } = firstResponse
   const noteToDelete = notes[0]
   
@@ -82,11 +85,19 @@ test('a note can be delete', async () => {
     .expect(204)
 
     const { contents, response: secondResponse } = await getAllContentsFromNotes()
-    //const secondResponse = response
-    console.log(secondResponse.body.length)
-    expect(response.body).toHaveLength(initialNotes.length-1)
 
+    expect(secondResponse.body).toHaveLength(initialNotes.length-1)
     expect(contents).not.toContain(noteToDelete.content)
+})
+test('a note that do not exist can not be deleted', async () => {
+
+  await api
+    .delete(`/api/notes/1234`)
+    .expect(400)
+
+    const { response } = await getAllContentsFromNotes()
+
+    expect(response.body).toHaveLength(initialNotes.length)
 })
 
 afterAll(() => {

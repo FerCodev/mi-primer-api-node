@@ -60,12 +60,15 @@ app.put('/api/notes/:id', (req, res, next) => {
     .catch(err => next(err))
 })
 
-app.delete('/api/notes/:id', (req, res, next) => {
+app.delete('/api/notes/:id', async (req, res, next) => {
   const {id} = req.params
   
-  Note.findByIdAndRemove(id)
-    .then( () => {res.status(204).end()})
-    .catch( error => next(error))
+  try {
+    await Note.findByIdAndRemove(id)
+    res.status(204).end()
+  } catch (error) {
+    next(error)
+  }
 })
 
 app.post('/api/notes', async (req, res, next) => {
@@ -88,7 +91,6 @@ app.post('/api/notes', async (req, res, next) => {
   
   // newNote.save()
   //   .then(savedNote => {
-  //     console.log(newNote)
   //     res.json(savedNote)
   //   })
   //   .catch(err => next(err))
