@@ -7,8 +7,8 @@ require('./mongo')
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const mongoose = require('mongoose')
 const Event = require('./models/Event')
-const Fecha = require('./models/Fecha')
 const { request } = require('express')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
@@ -23,9 +23,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/events', async (req, res) => {
-  // Event.find({}).then(events => {
-  //   res.json(events)
-  // })
   const events = await Event.find({})
     res.json(events)
 })
@@ -60,7 +57,7 @@ app.get('/api/events/:id', (req, res, next) => {
 //     })
 //     .catch(err => next(err))
 // })
-
+//BORRA EVENTOS POR ID
 app.delete('/api/events/:id', async (req, res, next) => {
   const {id} = req.params
   
@@ -71,25 +68,37 @@ app.delete('/api/events/:id', async (req, res, next) => {
     next(error)
   }
 })
+//BORRA TODA LA COLECCION DE EVENTOS EN LA BD
+app.delete('/api/events', async (req, res, next) => {
+  const eventos = req.body
+  try {
+    await Event.deleteMany(eventos)
+    res.status(204).end()
+  } catch (error) {
+    next(error)
+  }
+})
 
 app.post('/api/events', async (req, res, next) => {
   const event = req.body
   if (!event.title) {
-    return res.status(400).json( { error : 'note.title is missing' } )
+    return res.status(400).json( { error : 'event.title is missing' } )
   }
-
   const newEvent = new Event({
     title      : event.title,
     highlight  : typeof event.highlight !== 'undefined' ? event.highlight : false,
-    date       : new Date().toISOString(),
+    date       : new Date().toString(),
     description: event.description,
+    imgUrl     : event.imgUrl,
     location   : event.location
   })
   try {
     const savedEvent = await newEvent.save()
+    
     res.json(savedEvent)
   } catch (error) {
     next(error)
+    console.log(error.name)
   }
 })
 

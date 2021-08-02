@@ -2,5 +2,9 @@ POST  http://localhost:3001/api/events
 Content-Type:  application/json
 
 {
-    "title": "hola, soy el titulo formato 2 pepe"
+  "title": "las mananitas",
+  "description": "mucho tequila y tacos de pastor",
+  "highlight": true,
+  "imgUrl": "www.marichilandia.lol",
+  "location": "mexico df"
 }
