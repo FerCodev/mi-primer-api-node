@@ -6,5 +6,13 @@ Content-Type:  application/json
   "description": "mucho tequila y tacos de pastor",
   "highlight": true,
   "imgUrl": "www.marichilandia.lol",
-  "location": "mexico df"
+  "location": "mexico dfweqwewqewqe"
 }
+
+{
+  "seguir con las pruevas de conecxion entre los modelos"
+  "probar creando diferentes modelos y juntarlos"
+  "ya podemos crear un evento, borrarlo y obtener los datos con los metodos get/post/delete"
+  "hay que agregar usuarios y mejorar el modelo"
+  
+  }

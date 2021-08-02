@@ -1,16 +1,15 @@
 const { Schema, model} = require('mongoose')
-//const Fecha = require('./Fecha')
-const dateSchema = new Schema({
-  type : Date,
-  price: {
-    type: Number,
-    default : 2000
-  },
-  time : {
-    type: Number,
-    default : 2200
-  }
-})
+// const dateSchema = new Schema({
+//   type : Date,
+//   price: {
+//     type: Number,
+//     default : 2000
+//   },
+//   time : {
+//     type: Number,
+//     default : 2200
+//   }
+// })
 const eventSchema = new Schema({
   title       : {
     type      : String,
