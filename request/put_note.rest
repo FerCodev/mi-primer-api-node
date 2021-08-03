@@ -1,7 +1,6 @@
-PUT   http://localhost:3001/api/notes/60e7db257e62c53814cc67fc
+PUT   http://localhost:3001/api/events/6107432c5fb93c13f41fc32d
 Content-Type:  application/json
 
 {
-    "content": "quiero pollo",
-    "important": true
+    "title": "marca de agua con mariguana"
 }

@@ -1,31 +1,25 @@
 const { Schema, model} = require('mongoose')
-// const dateSchema = new Schema({
-//   type : Date,
-//   price: {
-//     type: Number,
-//     default : 2000
-//   },
-//   time : {
-//     type: Number,
-//     default : 2200
-//   }
-// })
+
 const eventSchema = new Schema({
   title       : {
     type      : String,
     //maxlength : [50, 'El titulo no debe exceder los 50 caracteres'],
     //minlength : [4, 'El titulo debe contener al menos 4 caracteres'] 
   },
-    description : {
-    type        : String, 
+  description : {
+    type      : String, 
     //required    : [ true, 'La descripcion del evento es necesaria' ],
     //maxlength : [ 480, 'La descripcion no debe exceder los 200 caracteres' ],
     //minlength : [ 12, 'la descripcion debe contener 12 o más caracteres' ]
   },
-  date       : Date,
-  highlight  : Boolean,
-  imgUrl     : String,
-  location   : String
+  date        : Date,
+  highlight   : Boolean,
+  imgUrl      : String,
+  location    : String,
+  user        : {
+    type      :     Schema.Types.ObjectId,
+    ref       : 'User'
+  }
 })
 
 //modelo con mongoose

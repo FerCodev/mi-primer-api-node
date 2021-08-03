@@ -12,8 +12,8 @@ const Event = require('./models/Event')
 const { request } = require('express')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
-//const notes = require('./api/notes.json')
 //const mongoose = require('mongoose')
+const usersRouter = require('./controllers/users')
 
 app.use(cors())
 app.use(express.json())
@@ -42,21 +42,20 @@ app.get('/api/events/:id', (req, res, next) => {
     .catch(err => next(err))  
 })
 
-// app.put('/api/events/:id', (req, res, next) => {
-//   const {id} = req.params
-//   const event = req.body
+app.put('/api/events/:id', (req, res, next) => {
+  const {id} = req.params
+  const event = req.body
 
-//   const newEventInfo = {
-//     content: note.content,
-//     important: note.important
-//   }
+  const newEventInfo = {
+    title : event.title
+  }
 
-//   Event.findByIdAndUpdate(id, newEventInfo, {new: true} )
-//     .then(result => {
-//       res.json(result)
-//     })
-//     .catch(err => next(err))
-// })
+  Event.findByIdAndUpdate(id, newEventInfo, {new: true} )
+    .then(result => {
+      res.json(result)
+    })
+    .catch(err => next(err))
+})
 //BORRA EVENTOS POR ID
 app.delete('/api/events/:id', async (req, res, next) => {
   const {id} = req.params
@@ -90,7 +89,8 @@ app.post('/api/events', async (req, res, next) => {
     date       : new Date().toString(),
     description: event.description,
     imgUrl     : event.imgUrl,
-    location   : event.location
+    location   : event.location,
+    user       : event.user.name
   })
   try {
     const savedEvent = await newEvent.save()
@@ -102,9 +102,12 @@ app.post('/api/events', async (req, res, next) => {
   }
 })
 
-// app.use(() => {
-//   console.log('hola pepe')
-// })
+app.use('/api/users', usersRouter)
+
+app.get('/api/users', async (req, res) => {
+  const users = await User.find({})
+    res.json(users)
+})
 
 app.use(notFound)
 app.use(handleErrors)
