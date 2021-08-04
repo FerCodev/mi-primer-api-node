@@ -13,7 +13,7 @@ const { request } = require('express')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
 //const mongoose = require('mongoose')
-const usersRouter = require('./controllers/users')
+const usersController = require('./controllers/usersController')
 
 app.use(cors())
 app.use(express.json())
@@ -102,7 +102,7 @@ app.post('/api/events', async (req, res, next) => {
   }
 })
 
-app.use('/api/users', usersRouter)
+app.use('/api/users', usersController.createUser)
 
 app.get('/api/users', async (req, res) => {
   const users = await User.find({})

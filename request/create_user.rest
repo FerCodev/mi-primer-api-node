@@ -6,8 +6,3 @@ Content-Type:  application/json
   "name"     : "Fernando",
   "password" : "ferpassword" 
 }
-
-{
-  "POST del usuario ya dispone de password hasheado en 
-  base de datos "
-}
