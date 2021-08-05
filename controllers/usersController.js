@@ -38,6 +38,3 @@ module.exports = {
   createUser,
   getAllUsers
 }
-// 'continuar revisando el error que me tira 201'
-// 'debe haber una diferencia en alguna parte controlador'
-// 'de usuarios o del test en si'

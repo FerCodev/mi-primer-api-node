@@ -17,37 +17,34 @@ const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
 //const mongoose = require('mongoose')
 const usersController = require('./controllers/usersController')
+
 const User = require('./models/user')
 
 app.use(cors())
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send(`<h1>Hola mundo</h1>`)
-})
+// app.get('/api/events', async (req, res) => {
+//   const events = await Event.find({}).populate('user',{
+//     username:1,
+//     name:1
+//   })
+//     res.json(events)
+// })
 
-app.get('/api/events', async (req, res) => {
-  const events = await Event.find({}).populate('user',{
-    username:1,
-    name:1
-  })
-    res.json(events)
-})
+// app.get('/api/events/:id', (req, res, next) => {
+//   const {id} = req.params
+//   //const event = events.find((event) => event.id === id)
 
-app.get('/api/events/:id', (req, res, next) => {
-  const {id} = req.params
-  //const event = events.find((event) => event.id === id)
-
-  Event.findById(id)
-    .then( event => {
-      if (event) {
-        return res.json(event)
-      } else {
-        res.status(404).end()
-      }
-    })
-    .catch(err => next(err))  
-})
+//   Event.findById(id)
+//     .then( event => {
+//       if (event) {
+//         return res.json(event)
+//       } else {
+//         res.status(404).end()
+//       }
+//     })
+//     .catch(err => next(err))  
+// })
 
 app.put('/api/events/:id', (req, res, next) => {
   const {id} = req.params
@@ -66,6 +63,7 @@ app.put('/api/events/:id', (req, res, next) => {
 //BORRA EVENTOS POR ID
 app.delete('/api/events/:id', async (req, res, next) => {
   const {id} = req.params
+  console.log({id})
   
   try {
     await Event.findByIdAndRemove(id)
