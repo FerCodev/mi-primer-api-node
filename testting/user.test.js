@@ -21,7 +21,7 @@ describe('creating a new user', () => {
       name: 'fernando',
       password: 'falopitaremix'
     }
-
+    // newUser.save()
     await api
       .post('/api/users')
       .send(newUser)
@@ -34,13 +34,14 @@ describe('creating a new user', () => {
 
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
+    console.log(newUser.username)
   })
   test('creation fails with proper statuscode and if username is already taken', async () => {
     const usersAtStart = await getUsers()
     const username = usersAtStart.map(u => u.username)
     console.log(username)
     const newUser = {
-      username: 'Fercode',
+      username: 'FerRoot',
       name: 'fernando',
       password: 'falopitaremix'
     }
@@ -50,10 +51,10 @@ describe('creating a new user', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-      expect(result.body.error).toContain(`${username} to be unique`)
+      expect(result.body.errors.username.message).toContain('Error, expected `username` to be unique')
 
       const usersAtEnd = await getUsers()
-      expect(usersAtEnd).toHaveLength(usersAtStart.length())
+      expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
   afterAll(() => {
     mongoose.connection.close()

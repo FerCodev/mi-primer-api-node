@@ -8,7 +8,7 @@ const userSchema = new Schema({
   },
   name: String,
   passwordHash: String,
-  notes: [{
+  events: [{
     type: Schema.Types.ObjectId,
     ref : "Event"
   }]

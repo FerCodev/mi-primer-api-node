@@ -3,7 +3,8 @@ const usersController = require('../controllers/usersController')
 const router = express.Router()
 
 module.exports = function(){
-  router.post('/', usersController.createUser)
+  router.post('/api/users', usersController.createUser)
 
+  router.get('/api/users', usersController.getAllUsers)
   return router
 }

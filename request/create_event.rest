@@ -2,11 +2,10 @@ POST  http://localhost:3001/api/events
 Content-Type:  application/json
 
 {
-  "title"       : "las manzanas de pedro",
+  "title"       : "evento de prueba",
   "description" : "mucho tequila y tacos de pastor",
   "highlight"   : true,
   "imgUrl"      : "www.marichilandia.lol",
   "location"    : "mexico dfweqwewqewqe",
-  "day"         : "miercoles",
-  "user"        : "Fernando"
+  "userId"      : "610b399588b2600a747e03cb"
 }

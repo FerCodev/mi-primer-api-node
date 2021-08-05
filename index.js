@@ -1,4 +1,6 @@
+'use strict'
 require('dotenv').config()
+
 //Primero importamos el modulo y luego hacemos la 
 //llamada-- dejamos la version simplificada
 //const connectDB = require('./mongo.js')
@@ -8,12 +10,14 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
+const routes = require('./routes')
 const Event = require('./models/Event')
 const { request } = require('express')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
 //const mongoose = require('mongoose')
 const usersController = require('./controllers/usersController')
+const User = require('./models/user')
 
 app.use(cors())
 app.use(express.json())
@@ -23,7 +27,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/events', async (req, res) => {
-  const events = await Event.find({})
+  const events = await Event.find({}).populate('user',{
+    username:1,
+    name:1
+  })
     res.json(events)
 })
 
@@ -79,36 +86,47 @@ app.delete('/api/events', async (req, res, next) => {
 })
 
 app.post('/api/events', async (req, res, next) => {
-  const event = req.body
-  if (!event.title) {
+  const {
+    title,
+    description,
+    imgUrl,
+    location,
+    highlight = false,
+    userId  
+  } = req.body
+  const user = await User.findById(userId)
+  console.log(user)
+  
+  if (!title) {
     return res.status(400).json( { error : 'event.title is missing' } )
   }
+  //highlight: typeof highlight !== 'undefined' ? highlight : false
   const newEvent = new Event({
-    title      : event.title,
-    highlight  : typeof event.highlight !== 'undefined' ? event.highlight : false,
-    date       : new Date().toString(),
-    description: event.description,
-    imgUrl     : event.imgUrl,
-    location   : event.location,
-    user       : event.user.name
+    title,
+    highlight,
+    date : new Date().toString(),
+    description,
+    imgUrl,
+    location,
+    user : user._id
   })
   try {
     const savedEvent = await newEvent.save()
-    
+    console.log(savedEvent)
+    user.events = user.events.concat(savedEvent._id)
+    await user.save()
+
     res.json(savedEvent)
   } catch (error) {
+    console.error(error.name)
     next(error)
-    console.log(error.name)
+    //console.log(error.name)
   }
 })
 
-app.use('/api/users', usersController.createUser)
+//app.use('/api/users', usersController.createUser)
 
-app.get('/api/users', async (req, res) => {
-  const users = await User.find({})
-    res.json(users)
-})
-
+app.use('/', routes())
 app.use(notFound)
 app.use(handleErrors)
 
