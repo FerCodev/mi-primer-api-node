@@ -12,12 +12,21 @@ const eventSchema = new Schema({
     //maxlength : [ 480, 'La descripcion no debe exceder los 200 caracteres' ],
     //minlength : [ 12, 'la descripcion debe contener 12 o más caracteres' ]
   },
-  date        : Date,
+  dates       : [{
+    date      : {
+      type    : Date,
+      //required: true
+    },
+    price     : {
+      type    : Number,
+      //required:true
+    }
+  }],
   highlight   : Boolean,
   imgUrl      : String,
   location    : String,
   user        : {
-    type      :     Schema.Types.ObjectId,
+    type      :  Schema.Types.ObjectId,
     ref       : 'User'
   }
 })

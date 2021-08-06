@@ -2,10 +2,17 @@ POST  http://localhost:3001/api/events
 Content-Type:  application/json
 
 {
-  "title"       : "evento dsaasdasd",
-  "description" : "mucho tequila y tacos de pastor",
+  "title"       : "Antoloc1",
+  "description" : "toma mucha falopa ",
   "highlight"   : true,
-  "imgUrl"      : "www.marichilandia.lol",
-  "location"    : "mexico dfweqwewqewqe",
-  "userId"      : "610b61af1056a219a8a2f0ad"
+  "imgUrl"      : "www.antoconfalopa.com",
+  "dates"       : {
+    "date"      : "December 21, 2000 03:24:00",
+    "price"     : 1300
+  },
+  "location"    : "Puerto ballarta",
+  "userId"      : "610c4b93821dc32f4c5f47b8"
 }
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJuYW1lIjoicGVwZSIsInVzZXJuYW1lIjoiRmVybmFuZGlubyIsImlkIjoiNjEwZDdmNjA5MjYyZmQwNmJjZDUyOWEzIiwiaWF0IjoxNjI4MjkyMDk5fQ.
+vtCHW2T8Zv1WUu1RwN2Ahxp6EIhFeIX_A5iG3-cGdy4

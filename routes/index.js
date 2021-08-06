@@ -1,7 +1,9 @@
-const express = require('express')
+const router = require('express').Router()
+
 const usersController = require('../controllers/usersController')
 const eventsController = require('../controllers/eventsController')
-const router = express.Router()
+//const loginController = require('../controllers/loginController')
+const loginRouter = require('./loginRouter')
 
 module.exports = function(){
   // RUTAS DE EVENTOS 
@@ -11,19 +13,25 @@ module.exports = function(){
   
   router.get('/api/events/:id', eventsController.getEventById)
   
-  // router.put('/api/events/:id', eventsController.putEventById)
+  router.put('/api/events/:id', eventsController.updatedEventById)
+
+  router.patch('/api/events/:id', eventsController.patchEventById)
+  
+  
   // //BORRA EVENTOS POR ID
   //router.delete('/api/events/:id', eventsController.deleteEventById)
   // //BORRA TODA LA COLECCION DE EVENTOS EN LA BD
   // router.delete('/api/events', eventsController.deleteAllEvents)
-  
-  //router.post('/api/events', eventsController.saveEvent)
-
-
-
+  //router.use('/api/events', eventsController.saveEvent)
   //  RUTAS DE USUARIO
   router.post('/api/users', usersController.createUser)
-
+  
   router.get('/api/users', usersController.getAllUsers)
-  return router
+  
+  router.get('/api/users/:id', usersController.getUserById)
+  // LOGIN ROUTES
+  router.use('/api/login', loginRouter)
+  
+  return router;
 }
+//module.exports = router

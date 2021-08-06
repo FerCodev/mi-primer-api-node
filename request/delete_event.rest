@@ -1,1 +1,1 @@
-DELETE http://localhost:3001/api/events/610709df546f92342ce194a4
+DELETE http://localhost:3001/api/events/610c36e0ea60812814e0f04f

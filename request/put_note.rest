@@ -1,6 +1,0 @@
-PUT   http://localhost:3001/api/events/6107432c5fb93c13f41fc32d
-Content-Type:  application/json
-
-{
-    "title": "marca de agua con mariguana"
-}
