@@ -111,17 +111,21 @@ const saveEvent =  async (req, res, next) => {
   } = req.body
 
   const authorization = req.get('authorization')
-  let token = null
-  console.log(authorization)
+  let token = ''
+  console.log({ authorization })
 
   if(authorization && authorization.toLowerCase().startsWith('bearer')){
     token = authorization.substring(7)
   }
-  console.log('before')
-  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  let decodedToken = {}
+  try {
+    decodedToken = jwt.verify(token, process.env.SECRET)
+  } catch(e) {console.log()}
+  
   console.log(token, decodedToken)
 
-  if(!token || decodedToken.id){
+  if(!token || !decodedToken.id){
     return res.status(401).json({ error : 'token is missing or invelid'})
   }
 

@@ -1,5 +1,6 @@
 POST  http://localhost:3001/api/events
 Content-Type:  application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGVwZSIsInVzZXJuYW1lIjoiRmVybmFuZGlubyIsImlkIjoiNjEwZDdmNjA5MjYyZmQwNmJjZDUyOWEzIiwiaWF0IjoxNjI4MzY0NzQ4fQ.OIkSVQiXn3YHkn11na7NthUeb7vxJheIW18LbRefJf8
 
 {
   "title"       : "Antoloc1",
@@ -13,6 +14,3 @@ Content-Type:  application/json
   "location"    : "Puerto ballarta",
   "userId"      : "610c4b93821dc32f4c5f47b8"
 }
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
-eyJuYW1lIjoicGVwZSIsInVzZXJuYW1lIjoiRmVybmFuZGlubyIsImlkIjoiNjEwZDdmNjA5MjYyZmQwNmJjZDUyOWEzIiwiaWF0IjoxNjI4MjkyMDk5fQ.
-vtCHW2T8Zv1WUu1RwN2Ahxp6EIhFeIX_A5iG3-cGdy4
