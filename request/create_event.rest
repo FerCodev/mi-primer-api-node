@@ -3,14 +3,15 @@ Content-Type:  application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGVwZSIsInVzZXJuYW1lIjoiRmVybmFuZGlubyIsImlkIjoiNjEwZDdmNjA5MjYyZmQwNmJjZDUyOWEzIiwiaWF0IjoxNjI4MzY0NzQ4fQ.OIkSVQiXn3YHkn11na7NthUeb7vxJheIW18LbRefJf8
 
 {
-  "title"       : "Antoloc1",
+  "title"       : "otra nota mas con este token ",
   "description" : "toma mucha falopa ",
   "highlight"   : true,
   "imgUrl"      : "www.antoconfalopa.com",
   "dates"       : {
     "date"      : "December 21, 2000 03:24:00",
-    "price"     : 1300
+    "price"     :1555555
   },
-  "location"    : "Puerto ballarta",
-  "userId"      : "610c4b93821dc32f4c5f47b8"
+  "location"    : "Puerto ballarta"
+//  "userId"      : "610c4b93821dc32f4c5f47b8"
 }
+//sacar el userId del token

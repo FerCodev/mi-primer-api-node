@@ -106,8 +106,8 @@ const saveEvent =  async (req, res, next) => {
     description,
     imgUrl,
     location,
-    highlight = false,
-    userId  
+    highlight = false
+    //userId  
   } = req.body
 
   const authorization = req.get('authorization')
@@ -121,7 +121,7 @@ const saveEvent =  async (req, res, next) => {
   let decodedToken = {}
   try {
     decodedToken = jwt.verify(token, process.env.SECRET)
-  } catch(e) {console.log()}
+  } catch(e) {console.log(e)}
   
   console.log(token, decodedToken)
 
@@ -129,7 +129,7 @@ const saveEvent =  async (req, res, next) => {
     return res.status(401).json({ error : 'token is missing or invelid'})
   }
 
-
+  const { id:userId } = decodedToken 
   const user = await User.findById(userId)
   
   if (!title) {
