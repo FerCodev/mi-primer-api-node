@@ -3,6 +3,7 @@ const router = require('express').Router()
 const usersController = require('../controllers/usersController')
 const eventsController = require('../controllers/eventsController')
 //const loginController = require('../controllers/loginController')
+const userExtractor = require('../middleware/userExtractor')
 const loginRouter = require('./loginRouter')
 
 module.exports = function(){
@@ -13,16 +14,15 @@ module.exports = function(){
   
   router.get('/api/events/:id', eventsController.getEventById)
   
-  router.put('/api/events/:id', eventsController.updatedEventById)
+  router.put('/api/events/:id',userExtractor, eventsController.updatedEventById)
 
-  router.patch('/api/events/:id', eventsController.patchEventById)
+  router.patch('/api/events/:id',userExtractor, eventsController.patchEventById)
   
-  
-  // //BORRA EVENTOS POR ID
-  //router.delete('/api/events/:id', eventsController.deleteEventById)
-  // //BORRA TODA LA COLECCION DE EVENTOS EN LA BD
-  // router.delete('/api/events', eventsController.deleteAllEvents)
-  //router.use('/api/events', eventsController.saveEvent)
+  router.delete('/api/events/:id',userExtractor, eventsController.deleteEventByID )
+
+  router.delete('/api/events',userExtractor, eventsController.deleteAllEvents)
+
+  router.post('/api/events',userExtractor, eventsController.saveEvent)
   //  RUTAS DE USUARIO
   router.post('/api/users', usersController.createUser)
   
@@ -34,4 +34,3 @@ module.exports = function(){
   
   return router;
 }
-//module.exports = router

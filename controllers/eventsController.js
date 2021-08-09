@@ -1,46 +1,39 @@
 require('dotenv').config()
 const User = require('../models/User')
 const Event = require('../models/Event')
-const jwt = require('jsonwebtoken')
 
 const home =  (req, res) => {
   res.send(`<h1>Hola mundo</h1>`)
 }
 const getAllEvents = async (req, res) => {
-  const events = await Event.find({}).populate('user',{
-    username:1,
-    name:1
-  })
+  const events = await Event.find({})
+  // .populate('user',{
+  //   username:1,
+  //   name:1
+  // })
   return res.json(events)
 }
 const getEventById = async (req, res, next) => {
   const {id} = req.params
   try {
-    const event = await Event.findById(id).populate('user', {
-      username:1,
-      events:1,
-      _id:1
-    })
+    const event = await Event.findById({id})
+    // .populate('user', {
+    //   username:1,
+    //   events:1,
+    //   _id:1
+    // })
     if (event) {
       res.json(event)
       console.log(event.user.events)
     }else{
+      res.json('el evento no existe')
       console.log('el evento no existe')
       return 
     }
   } catch (error) {
     next(error)
   }
-
-  // Event.findById(id).populate('user')
-  //   .then( event => {
-  //     if (event) {
-  //       return res.json(event)
-  //     } else {
-  //       res.status(404).end()
-  //     } 
-  //   })
-  //   .catch(err => next(err))  
+  
 }
 const deleteAllEvents = async (req, res, next) => {
   const eventos = req.body
@@ -106,30 +99,11 @@ const saveEvent =  async (req, res, next) => {
     description,
     imgUrl,
     location,
-    highlight = false
-    //userId  
-  } = req.body
+    highlight = false,
+    } = req.body
+  // SACAR USERID DE REQUEST 
+  const { userId } = req
 
-  const authorization = req.get('authorization')
-  let token = ''
-  console.log({ authorization })
-
-  if(authorization && authorization.toLowerCase().startsWith('bearer')){
-    token = authorization.substring(7)
-  }
-
-  let decodedToken = {}
-  try {
-    decodedToken = jwt.verify(token, process.env.SECRET)
-  } catch(e) {console.log(e)}
-  
-  console.log(token, decodedToken)
-
-  if(!token || !decodedToken.id){
-    return res.status(401).json({ error : 'token is missing or invelid'})
-  }
-
-  const { id:userId } = decodedToken 
   const user = await User.findById(userId)
   
   if (!title) {
@@ -146,8 +120,10 @@ const saveEvent =  async (req, res, next) => {
     description,
     imgUrl,
     location,
-    user : user._id
+    //user : userId
+    // user : user._id
   })
+  console.log(userId)
   try {
     const savedEvent = await newEvent.save()
     // console.log(savedEvent)

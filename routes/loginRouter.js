@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt')
 const User = require('../models/User')
 
 loginRouter.post('/', async ( req, res ) => {
-  const { body } = req
-  const { username, password } = body
+  // const { body } = req
+  const { username, password } = req.body
   const user = await User.findOne({ username })
   const passwordCorrect = user === null
     ? false
@@ -29,7 +29,7 @@ loginRouter.post('/', async ( req, res ) => {
       username : user.username,
       token
     })
-    console.log(body)
+    console.log(userForToken)
 })
 //const login = 
 module.exports = loginRouter

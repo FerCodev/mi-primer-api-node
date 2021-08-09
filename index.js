@@ -1,9 +1,5 @@
 require('dotenv').config()
 
-//Primero importamos el modulo y luego hacemos la 
-//llamada-- dejamos la version simplificada
-//const connectDB = require('./mongo.js')
-//connectDB()
 require('./mongo')
 const express = require('express')
 const app = express()
@@ -13,21 +9,22 @@ const routes = require('./routes/index')
 const { request } = require('express')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
-//const loginController = require('./controllers/loginController')
-//const loginRouter = require('./routes/loginRouter')
-const usersController = require('./controllers/usersController')
-const eventsController = require('./controllers/eventsController')
-//const User = require('./models/User')
+
+
+{
+  
+  'ESTA FALLANDO LA CONECXION DE LOS MODELOS DE EVENT Y USER'
+  'LA FALLA SE DETECTO POR PRIMERA VEZ LUEGO DE IMPLEMENTAR '
+  'LOS CAMBIOS EN EL PROCESO DE CREACION DE UN EVENTO, BORRADO Y ACTUALIZADO DE LOS MISMOS '
+  'CREO QUE EL ERROR SE DEBE A QUE HUBO UN CAMBIO EN LA FORMA DE OBTENER LA ID'
+  'DEL USUARIO'
+
+}
+
+
 
 app.use(cors())
 app.use(express.json())
-
-//BORRA EVENTOS POR ID
-app.delete('/api/events/:id', eventsController.deleteEventByID )
-//BORRA TODA LA COLECCION DE EVENTOS EN LA BD
-app.delete('/api/events', eventsController.deleteAllEvents)
-app.post('/api/events', eventsController.saveEvent)
-//app.use('/api/login', loginRouter) SI FUNCIONA BIEN EN ROUTES, BORRAR
 
 app.use('/', routes())
 app.use(notFound)
