@@ -1,7 +1,0 @@
-GET   http://localhost:3001/api/events
-Content-Type:  application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGVwZSIsInVzZXJuYW1lIjoiRmVybmFuZGlubyIsImlkIjoiNjExMTg4N2JiY2E5OTIzN2VjZTZiN2U2IiwiaWF0IjoxNjI4NTM5Nzg0LCJleHAiOjE2MjkxNDQ1ODR9.sy5eTNbmd6qcGX_ztwqrKHnD0186Vl3TzLIJafYfRio
-
-
-
-
