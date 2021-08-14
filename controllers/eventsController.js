@@ -6,25 +6,21 @@ const home =  (req, res) => {
   res.send(`<h1>Hola mundo</h1>`)
 }
 const getAllEvents = async (req, res) => {
-  const events = await Event.find({})
-  // .populate('user',{
-  //   username:1,
-  //   name:1
-  // })
+  const events = await Event.find({}).populate('user',{
+    username : 1
+  })
   return res.json(events)
 }
 const getEventById = async (req, res, next) => {
-  const {id} = req.params
+  const id = req.params.id
+  console.log(id)
   try {
-    const event = await Event.findById({id})
-    // .populate('user', {
-    //   username:1,
-    //   events:1,
-    //   _id:1
-    // })
-    if (event) {
+    const event = await Event.findById(id).populate('user', {
+      username:1
+    })
+    if(event) {
       res.json(event)
-      console.log(event.user.events)
+      console.log(event)
     }else{
       res.json('el evento no existe')
       console.log('el evento no existe')
@@ -45,10 +41,19 @@ const deleteAllEvents = async (req, res, next) => {
   }
 }
 const deleteEventByID = async (req, res, next) => {
-  const {id} = req.params
-  console.log({id})
+  const id = req.params.id
   try {
-    const event = await Event.findByIdAndRemove(id)
+    const event = await Event.findById(id)
+    const user = await User.findById(event.user)
+    const events= user.events
+    const eventIndex = events.indexOf(id)
+    if(eventIndex > -1){
+      await events.splice(eventIndex, 1)
+      console.log(events)
+    }
+    await user.save()
+
+    const eventToDelete = await Event.findByIdAndRemove(id)
     res.status(204).end()
   } catch (error) {
     next(error)
@@ -109,7 +114,7 @@ const saveEvent =  async (req, res, next) => {
   if (!title) {
     return res.status(400).json( { error : 'event.title is missing' } )
   }
-  //highlight: typeof highlight !== 'undefined' ? highlight : false
+
   const newEvent = new Event({
     title,
     highlight,
@@ -120,17 +125,18 @@ const saveEvent =  async (req, res, next) => {
     description,
     imgUrl,
     location,
-    //user : userId
-    // user : user._id
+    user : userId
   })
-  console.log(userId)
   try {
     const savedEvent = await newEvent.save()
-    // console.log(savedEvent)
-    userEvents = user.events.concat(savedEvent._id)
-    //await user.update()
-    await user.save()
+    
+    const userEvents = await user.events.push(savedEvent._id)
 
+    console.log(user.events)
+
+    await user.save()
+    console.log(user)
+    
     res.json(savedEvent)
   } catch (error) {
     // console.error(error.name)

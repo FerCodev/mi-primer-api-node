@@ -2,15 +2,15 @@ const uniqueValidator = require('mongoose-unique-validator')
 const { Schema, model } = require('mongoose')
 
 const userSchema = new Schema({
-  username: { 
-    type: String,
-    unique: true
+  username : { 
+    type   : String,
+    unique : true
   },
-  name: String,
+  name     : String,
   passwordHash: String,
-  events: [{
-    type: Schema.Types.ObjectId,
-    ref : "Event"
+  events   : [{
+    type   :  Schema.Types.ObjectId,
+    ref    : 'Event'
   }]
 })
 

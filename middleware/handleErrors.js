@@ -10,7 +10,7 @@ const ERROR_HANDLERS = {
   
   TokenExpirerError: res => res.status(401).json({ error : 'token expired' }),
 
-  defaultError: res => res.status(500).end()
+  defaultError: res => res.status(500).json('algo esta pasando aca').end()
 }
 
 module.exports = (error, req, res, next) => {
