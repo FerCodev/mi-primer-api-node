@@ -37,7 +37,7 @@ const getAllUsers = async (req, res) => {
 }
 
 const getUserById = async (req, res) => {
-  const {userId} = req
+  const {id : userId} = req.params
   console.log(userId)
   const users = await User.findById(userId).populate('events',{
     title:1,
